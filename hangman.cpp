@@ -6,10 +6,10 @@
 #include <unistd.h>
 
 char menu();
-void option(std::string &, std::string &, int &, int &, int &, int &);
+void option(std::string &, std::string &, int &, int &, int &, int &, int &);
 bool exit();
 void difficulty(std::string &);
-void category(std::string &);
+void category(std::string &, int &);
 void progress(int &, int &, int &, int &);
 void hangman(int, std::string);
 std::string guessLetter();
@@ -74,44 +74,64 @@ int main()
     int sizeOfSelectedWord;
     std::string blanks;
     int lives;
-    int hangmanCondition;
+    int hangmanCondition{};
     char choose;
-    std::string level = "normal";
-    std::string type = "technology";
-    int totalWins = 0;
-    int totalLose = 0;
-    int totalCorrectGuess = 0;
-    int totalWrongGuess = 0;
+    std::string level{"normal"};
+    std::string type{"technology"};
+    int totalWins{};
+    int totalLose{};
+    int totalCorrectGuess{};
+    int totalWrongGuess{};
     char exitGame = false;
+    int categoryInt{1};
+
     do
     {
         choose = menu();
         switch (choose)
         {
         case '1':
-            if (type == "technology")
+            // if (type == "technology")
+            // {
+            //     playing1(wordsTech, hintsTech, numberOfWords, randomize, selectedWord, sizeOfSelectedWord, blanks, lives, hangmanCondition, level, totalWins, totalLose, totalCorrectGuess, totalWrongGuess);
+            // }
+            // else if (type == "animals")
+            // {
+            //     playing2(wordsAnimals, hintsAnimals, numberOfWords, randomize, selectedWord, sizeOfSelectedWord, blanks, lives, hangmanCondition, level, totalWins, totalLose, totalCorrectGuess, totalWrongGuess);
+            // }
+            // else if (type == "mathematics")
+            // {
+            //     playing3(wordsMath, hintsMath, numberOfWords, randomize, selectedWord, sizeOfSelectedWord, blanks, lives, hangmanCondition, level, totalWins, totalLose, totalCorrectGuess, totalWrongGuess);
+            // }
+            // else if (type == "human body")
+            // {
+            //     playing4(wordsHumanBody, hintsHumanBody, numberOfWords, randomize, selectedWord, sizeOfSelectedWord, blanks, lives, hangmanCondition, level, totalWins, totalLose, totalCorrectGuess, totalWrongGuess);
+            // }
+            // else if (type == "history")
+            // {
+            //     playing5(wordsHistory, hintsHistory, numberOfWords, randomize, selectedWord, sizeOfSelectedWord, blanks, lives, hangmanCondition, level, totalWins, totalLose, totalCorrectGuess, totalWrongGuess);
+            // }
+            switch (categoryInt)
             {
+            case 1:
                 playing1(wordsTech, hintsTech, numberOfWords, randomize, selectedWord, sizeOfSelectedWord, blanks, lives, hangmanCondition, level, totalWins, totalLose, totalCorrectGuess, totalWrongGuess);
-            }
-            else if (type == "animals")
-            {
+                break;
+            case 2:
                 playing2(wordsAnimals, hintsAnimals, numberOfWords, randomize, selectedWord, sizeOfSelectedWord, blanks, lives, hangmanCondition, level, totalWins, totalLose, totalCorrectGuess, totalWrongGuess);
-            }
-            else if (type == "mathematics")
-            {
+                break;
+            case 3:
                 playing3(wordsMath, hintsMath, numberOfWords, randomize, selectedWord, sizeOfSelectedWord, blanks, lives, hangmanCondition, level, totalWins, totalLose, totalCorrectGuess, totalWrongGuess);
-            }
-            else if (type == "human body")
-            {
+                break;
+            case 4:
                 playing4(wordsHumanBody, hintsHumanBody, numberOfWords, randomize, selectedWord, sizeOfSelectedWord, blanks, lives, hangmanCondition, level, totalWins, totalLose, totalCorrectGuess, totalWrongGuess);
-            }
-            else if (type == "history")
-            {
+                break;
+            case 5:
                 playing5(wordsHistory, hintsHistory, numberOfWords, randomize, selectedWord, sizeOfSelectedWord, blanks, lives, hangmanCondition, level, totalWins, totalLose, totalCorrectGuess, totalWrongGuess);
+                break;
             }
             break;
         case '2':
-            option(level, type, totalWins, totalLose, totalCorrectGuess, totalWrongGuess);
+            option(level, type, totalWins, totalLose, totalCorrectGuess, totalWrongGuess, categoryInt);
             break;
         case '3':
             exitGame = exit();
@@ -137,7 +157,7 @@ char menu()
     }
     return choose[0];
 }
-void option(std::string &level, std::string &type, int &totalWins, int &totalLose, int &totalCorrectGuess, int &totalWrongGuess)
+void option(std::string &level, std::string &type, int &totalWins, int &totalLose, int &totalCorrectGuess, int &totalWrongGuess, int &categoryInt)
 {
     std::string choice;
     char choice2;
@@ -164,7 +184,7 @@ void option(std::string &level, std::string &type, int &totalWins, int &totalLos
             difficulty(level);
             break;
         case '2':
-            category(type);
+            category(type, categoryInt);
             break;
         case '3':
             progress(totalWins, totalLose, totalCorrectGuess, totalWrongGuess);
@@ -284,7 +304,7 @@ void difficulty(std::string &level)
         }
     }
 }
-void category(std::string &type)
+void category(std::string &type, int &categoryNum)
 {
     std::string currentCategory = type;
     std::string input;
@@ -315,6 +335,7 @@ void category(std::string &type)
             {
                 type = "technology";
                 currentCategory = type;
+                categoryNum = 1;
                 for (int i = 1; i <= 3; i++)
                 {
                     std::this_thread::sleep_for(std::chrono::milliseconds(500));
@@ -340,6 +361,7 @@ void category(std::string &type)
             {
                 type = "animals";
                 currentCategory = type;
+                categoryNum = 2;
                 for (int i = 1; i <= 3; i++)
                 {
                     std::this_thread::sleep_for(std::chrono::milliseconds(500));
@@ -365,6 +387,7 @@ void category(std::string &type)
             {
                 type = "mathematics";
                 currentCategory = type;
+                categoryNum = 3;
                 for (int i = 1; i <= 3; i++)
                 {
                     std::this_thread::sleep_for(std::chrono::milliseconds(500));
@@ -390,6 +413,7 @@ void category(std::string &type)
             {
                 type = "human body";
                 currentCategory = type;
+                categoryNum = 4;
                 for (int i = 1; i <= 3; i++)
                 {
                     std::this_thread::sleep_for(std::chrono::milliseconds(500));
@@ -415,6 +439,7 @@ void category(std::string &type)
             {
                 type = "history";
                 currentCategory = type;
+                categoryNum = 5;
                 for (int i = 1; i <= 3; i++)
                 {
                     std::this_thread::sleep_for(std::chrono::milliseconds(500));
@@ -577,7 +602,7 @@ void hangman(int hangmanCondition, std::string level)
             std::cout << "/ \\    ||\n\n";
             break;
         case 10:
-            std::cout << " o---\\\\\n";
+            std::cout << "  ---\\\\\n";
             std::cout << "      \\\\\n";
             std::cout << "       00\n";
             std::cout << " O     ||\n";
@@ -586,13 +611,21 @@ void hangman(int hangmanCondition, std::string level)
             break;
         case 11:
             std::cout << " o---\\\\\n";
-            std::cout << " |    \\\\\n";
+            std::cout << "      \\\\\n";
             std::cout << "       00\n";
             std::cout << " O     ||\n";
             std::cout << "/|\\    ||\n";
             std::cout << "/ \\    ||\n\n";
             break;
         case 12:
+            std::cout << " o---\\\\\n";
+            std::cout << " |    \\\\\n";
+            std::cout << "       00\n";
+            std::cout << " O     ||\n";
+            std::cout << "/|\\    ||\n";
+            std::cout << "/ \\    ||\n\n";
+            break;
+        case 13:
             std::cout << " o---\\\\\n";
             std::cout << " |    \\\\\n";
             std::cout << " |     00\n";
@@ -776,7 +809,7 @@ void playing1(std::string wordsTech[][30], std::string hintsTech[][30], int numb
                 }
                 else if (level == "hard")
                 {
-                    if (hangmanCondition == 12)
+                    if (hangmanCondition == 13)
                     {
                         totalLose++;
                         hangman(hangmanCondition, level);
@@ -873,7 +906,7 @@ void playing2(std::string wordsAnimals[][30], std::string hintsAnimals[][30], in
                 }
                 else if (level == "hard")
                 {
-                    if (hangmanCondition == 12)
+                    if (hangmanCondition == 13)
                     {
                         totalLose++;
                         hangman(hangmanCondition, level);
@@ -970,7 +1003,7 @@ void playing3(std::string wordsMath[][30], std::string hintsMath[][30], int numb
                 }
                 else if (level == "hard")
                 {
-                    if (hangmanCondition == 12)
+                    if (hangmanCondition == 13)
                     {
                         totalLose++;
                         hangman(hangmanCondition, level);
@@ -1067,7 +1100,7 @@ void playing4(std::string wordsHumanBody[][30], std::string hintsHumanBody[][30]
                 }
                 else if (level == "hard")
                 {
-                    if (hangmanCondition == 12)
+                    if (hangmanCondition == 13)
                     {
                         totalLose++;
                         hangman(hangmanCondition, level);
@@ -1164,7 +1197,7 @@ void playing5(std::string wordsHistory[][30], std::string hintsHistory[][30], in
                 }
                 else if (level == "hard")
                 {
-                    if (hangmanCondition == 12)
+                    if (hangmanCondition == 13)
                     {
                         totalLose++;
                         hangman(hangmanCondition, level);
